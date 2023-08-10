@@ -37,6 +37,7 @@ public class nexacroNInterceptor implements HandlerInterceptor {
 //        System.out.println(log.isDebugEnabled()); // root 가 debug로 수정되어 있는지 확인용
         if(log.isDebugEnabled()){
             log.debug(" 로거 if문 수정 부분 💀💀 여기야 여기 해골~");
+            // 충돌 테스트
             debug(reqData.getDataSetList(), reqData.getVariableList());
         }
 //        debug(reqData.getDataSetList(), reqData.getVariableList()); // 로직이 구림 if 문으로 씌워라!!
