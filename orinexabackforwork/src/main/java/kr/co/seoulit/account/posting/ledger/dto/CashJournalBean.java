@@ -1,4 +1,4 @@
-package kr.co.seoulit.account.posting.ledger.to;
+package kr.co.seoulit.account.posting.ledger.dto;
 
 import kr.co.seoulit.account.sys.common.annotation.Dataset;
 import lombok.AccessLevel;

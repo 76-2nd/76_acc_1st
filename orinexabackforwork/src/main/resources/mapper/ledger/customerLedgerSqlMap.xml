@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.seoulit.account.posting.ledger.mapper.CustomerLedgerMapper">
 
 
-	<resultMap id="customerLedgerBeanResult" type="kr.co.seoulit.account.posting.ledger.to.CustomerLedgerBean">
+	<resultMap id="customerLedgerBeanResult" type="kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerBean">
 		<result property="carryOver" column="CARRY_OVER" />
 		<result property="customerCode" column="CUSTOMER_CODE" />
 		<result property="customerName" column="CUSTOMER_NAME" />
@@ -72,7 +72,7 @@
       </select>
 
 
-	<select id="selectCustomerLedgerDetailList" parameterType="String" resultType="kr.co.seoulit.account.posting.ledger.to.CustomerLedgerDetailBean">
+	<select id="selectCustomerLedgerDetailList" parameterType="String" resultType="kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailBean">
 		<![CDATA[
 		SELECT s.REPORTING_DATE as reportingDate
 			 ,a.account_name as accountName

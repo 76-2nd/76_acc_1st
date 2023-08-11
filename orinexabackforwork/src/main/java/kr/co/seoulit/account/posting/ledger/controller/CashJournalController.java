@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.nexacro.java.xapi.data.PlatformData;
 
 import kr.co.seoulit.account.posting.ledger.service.LedgerService;
-import kr.co.seoulit.account.posting.ledger.to.CashJournalBean;
+import kr.co.seoulit.account.posting.ledger.dto.CashJournalBean;
 import kr.co.seoulit.account.sys.common.mapper.DatasetBeanMapper;
 
 @RestController

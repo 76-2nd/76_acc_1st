@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import kr.co.seoulit.account.posting.business.Entity.JournalEntity;
 import kr.co.seoulit.account.posting.business.Entity.JournalDetailEntity;
-import kr.co.seoulit.account.posting.ledger.to.*;
+import kr.co.seoulit.account.posting.ledger.dto.*;
 
 public interface LedgerService {
 
@@ -20,15 +20,13 @@ public interface LedgerService {
 
     ArrayList<AssetBean> findAssetList();
 
-    ArrayList<AssetItemBean> findAssetItemList(String assetCode);
+    ArrayList<AssetItemResDto> findAssetItemList(String parentsCode);
 
     ArrayList<DeptBean> findDeptList();
 
-    void assetStorage(HashMap<String, Object> map);
+    void assetStorage(AssetItemReqDto assetItemReqDto);
 
     void removeAssetItem(String assetItemCode);
-
-    public void Insertasset(AssetItemBean bean);
 
     ArrayList<CustomerLedgerBean> findCustomerLedger(String fromDate, String toDate);
 

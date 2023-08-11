@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.seoulit.account.posting.ledger.to.CashJournalBean;
+import kr.co.seoulit.account.posting.ledger.dto.CashJournalBean;
 
 @Mapper
 public interface AuxiliaryLedgerMapper {

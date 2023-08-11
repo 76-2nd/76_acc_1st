@@ -1,4 +1,4 @@
-package kr.co.seoulit.account.posting.ledger.to;
+package kr.co.seoulit.account.posting.ledger.dto;
 
 public class DeptBean {
 	String deptCode, deptName;

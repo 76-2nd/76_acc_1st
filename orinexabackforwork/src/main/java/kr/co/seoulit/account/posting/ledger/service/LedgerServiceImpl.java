@@ -3,8 +3,12 @@ package kr.co.seoulit.account.posting.ledger.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.account.posting.ledger.entity.AssetItemEntity;
 import kr.co.seoulit.account.posting.ledger.mapper.CustomerLedgerMapper;
-import kr.co.seoulit.account.posting.ledger.to.*;
+import kr.co.seoulit.account.posting.ledger.dto.*;
+import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemReqMapStruct;
+import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemResMapStruct;
+import kr.co.seoulit.account.posting.ledger.repository.AssetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +31,14 @@ public class LedgerServiceImpl implements LedgerService {
     private AssistantLedgerMapper assistantLedgerDAO;
 	@Autowired
 	private CustomerLedgerMapper customerLedgerDAO;
+
+	@Autowired
+	private AssetItemRepository assetItemRepository;
+
+	@Autowired
+	private AssetItemReqMapStruct assetItemReqMapStruct;
+	@Autowired
+	private AssetItemResMapStruct assetItemResMapStruct;
 
 
     @Override
@@ -81,12 +93,11 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public ArrayList<AssetItemBean> findAssetItemList(String assetCode) {
+	public ArrayList<AssetItemResDto> findAssetItemList(String parentsCode) {
 
-        	ArrayList<AssetItemBean> assetBean = null;
-        	assetBean = assistantLedgerDAO.selectAssetItemList(assetCode);
-
-        return assetBean;
+		ArrayList<AssetItemEntity> assetItemEntity= assistantLedgerDAO.selectAssetItemList(parentsCode);
+		ArrayList<AssetItemResDto> assetItemResDto= (ArrayList<AssetItemResDto>) assetItemResMapStruct.toDto(assetItemEntity);
+		return assetItemResDto;
 	}
 
 	@Override
@@ -99,22 +110,13 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public void assetStorage(HashMap<String, Object> map) {
+	public void assetStorage(AssetItemReqDto assetItemReqDto) {
 
-			if(map.get("previousAssetItemCode").equals("CREATE")) {
-				assistantLedgerDAO.createAssetItem(map);
-			}
-			else {
-				assistantLedgerDAO.updateAssetItem(map);
-			}
+		AssetItemEntity assetitemEntity= assetItemReqMapStruct.toEntity(assetItemReqDto);
+		assetItemRepository.save(assetitemEntity);
 
 	}
 
-	public void Insertasset(AssetItemBean bean) {
-
-			assistantLedgerDAO.insertAssetItem(bean);
-
-	}
 
 	@Override
 	public void removeAssetItem(String assetItemCode) {
