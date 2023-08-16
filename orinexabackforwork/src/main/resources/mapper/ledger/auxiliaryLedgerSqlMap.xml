@@ -4,7 +4,7 @@
 
 <mapper namespace="kr.co.seoulit.account.posting.ledger.mapper.AuxiliaryLedgerMapper">
 
-		<resultMap id="cashJournalBeanResult" type="kr.co.seoulit.account.posting.ledger.to.CashJournalBean">
+		<resultMap id="cashJournalBeanResult" type="kr.co.seoulit.account.posting.ledger.dto.CashJournalBean">
 			<result property="expenseReport" column="EXPENSE_REPORT" />
 			<result property="reportingDate" column="REPORTING_DATE" />
 			<result property="monthReportingDate" column="MONTH_REPORTING_DATE" />
@@ -14,7 +14,7 @@
 			<result property="balance" column="BALANCE" />
 		</resultMap>
 
-		<resultMap id="cashJournalBeanResult2" type="kr.co.seoulit.account.posting.ledger.to.CashJournalBean">
+		<resultMap id="cashJournalBeanResult2" type="kr.co.seoulit.account.posting.ledger.dto.CashJournalBean">
 			<result property="expenseReport" column="EXPENSE_REPORT" />
 			<result property="monthReportingDate" column="MONTH_REPORTING_DATE" />
 			<result property="deposit" column="DEPOSIT" />

@@ -1,8 +1,8 @@
 package kr.co.seoulit.account.posting.ledger.mapper;
 
 
-import kr.co.seoulit.account.posting.ledger.to.CustomerLedgerBean;
-import kr.co.seoulit.account.posting.ledger.to.CustomerLedgerDetailBean;
+import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerBean;
+import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailBean;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -3,8 +3,8 @@ package kr.co.seoulit.account.posting.ledger.controller;
 
 import com.nexacro.java.xapi.data.PlatformData;
 import kr.co.seoulit.account.posting.ledger.service.LedgerService;
-import kr.co.seoulit.account.posting.ledger.to.CustomerLedgerBean;
-import kr.co.seoulit.account.posting.ledger.to.CustomerLedgerDetailBean;
+import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerBean;
+import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailBean;
 import kr.co.seoulit.account.sys.common.mapper.DatasetBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestAttribute;
