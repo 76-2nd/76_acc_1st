@@ -12,12 +12,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Dataset(name = "gds_slip")
+//@Dataset(name = "gds_slip2")
 @Table(name = "SLIP")
 @Getter @Setter
 public class SlipEntity extends BaseBean {
 
-	@Id
+    @Id
     private String slipNo;
     private String accountPeriodNo;
     private String deptCode;
@@ -25,18 +25,21 @@ public class SlipEntity extends BaseBean {
     private String slipType;
     @Column(columnDefinition = "nvarchar2")
     private String expenseReport;
-//    @Column(columnDefinition = "nchar")
+    //    @Column(columnDefinition = "nchar")
 //    private String authorizationStatus;
     private String reportingEmpCode;
     private String reportingDate;
+    @Column(name = "APPROVAL_EMP_CODE")
     private String approvalEmpCode;
+    @Column(name = "APPROVAL_DATE")
     private String approvalDate;
-//    @Column(columnDefinition = "nvarchar2")
+    //    @Column(columnDefinition = "nvarchar2")
 //    private String slipDescription;
+    @Column(name = "SLIP_STATUS")
     private String slipStatus;
 
 //	@Transient
-//    private String id;	
+//    private String id;
 //	@Transient
 //    private String deptName;
 //	@Transient

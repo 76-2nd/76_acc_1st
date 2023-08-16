@@ -126,11 +126,13 @@ public class SlipController {
 
     //@GetMapping("/approvalslip")
     @RequestMapping("/approveSlip")
-    public void modifyapproveSlip(@RequestAttribute("reqData") PlatformData reqData,
-                                  @RequestAttribute("resData") PlatformData resData) throws Exception{
-        ArrayList<SlipEntity> slipList = (ArrayList<SlipEntity>)datasetBeanMapper.datasetToBeans(reqData, SlipEntity.class);
+    public void approveSlip(@RequestAttribute("reqData") PlatformData reqData,
+                            @RequestAttribute("resData") PlatformData resData) throws Exception{
+        ArrayList<SlipreqDto> slipDtos =(ArrayList<SlipreqDto>) datasetBeanMapper.datasetToBeans(reqData, SlipreqDto.class);
 
+        businessService.approveSlip(slipDtos);
 
+//                String slipNo=reqData.getVariable("slipNo").getString();
 //	            JSONArray approveSlipLists = JSONArray.fromObject(approveSlipList); // slip_no만 가지고옴 //JSONArray.fromObject json 객체로 만들어줌
 //	            String slipStatus = isApprove; // true 승인버튼 누르면 true 가 넘어옴
 //	            ArrayList<SlipEntity> slipEntities = new ArrayList<>(); //담는 값이 여러개
@@ -150,10 +152,8 @@ public class SlipController {
 //	               // slipBean.setApprovalEmpCode(request.getSession().getAttribute("empCode").toString()); //String 형식 세션 값 읽기
 //	                slipEntities.add(slipEntity);
 //	            }
-
-        businessService.modifyapproveSlip(slipList);
-
     }
+
 
     @RequestMapping("/findRangedSlipList")
     public void findRangedSlipList(@RequestAttribute("reqData") PlatformData reqData,

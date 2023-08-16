@@ -226,12 +226,14 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public void modifyapproveSlip(ArrayList<SlipEntity> slipEntities) {
+    public void approveSlip(ArrayList<SlipreqDto> slipDtos) {
 
-        for (SlipEntity slipEntity : slipEntities) {
-            slipEntity.setSlipStatus(slipEntity.getSlipStatus().equals("승인완료") ? "승인완료" : "작성중(반려)");
-            slipApprovalAndReturnDAO.updateapproveSlip(slipEntity);
-        }
+//        for (SlipEntity slipEntity : slipEntities) {
+//            slipEntity.setSlipStatus(slipEntity.getSlipStatus().equals("승인요청") ? "승인완료":"승인완료");
+        ArrayList<SlipEntity>  slipEntities = (ArrayList<SlipEntity>) slipReqMapstruct.toEntity(slipDtos);
+        for (SlipEntity entity:slipEntities){
+            slipApprovalAndReturnDAO.updateapproveSlip(entity);}
+
     }
 
     @Override

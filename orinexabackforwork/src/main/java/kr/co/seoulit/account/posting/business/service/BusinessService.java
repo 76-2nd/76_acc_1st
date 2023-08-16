@@ -32,7 +32,7 @@ public interface BusinessService {
 
     public String modifySlip(SlipreqDto slipEntity, ArrayList<JournalreqDto> journalEntities);
 
-    public void modifyapproveSlip(ArrayList<SlipEntity> slipEntities);
+    public void approveSlip(ArrayList<SlipreqDto> slipDtos);
 
     public ArrayList<SlipEntity> findSlipDataList(String slipDate);
 
