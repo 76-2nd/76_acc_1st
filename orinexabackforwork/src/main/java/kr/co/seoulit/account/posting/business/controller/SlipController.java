@@ -3,8 +3,7 @@ package kr.co.seoulit.account.posting.business.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import kr.co.seoulit.account.posting.business.DTO.JournalDto;
-import kr.co.seoulit.account.posting.business.DTO.SlipDto;
+import kr.co.seoulit.account.posting.business.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,27 +61,27 @@ public class SlipController {
     public void modifySlip(@RequestAttribute("reqData") PlatformData reqData,
                            @RequestAttribute("resData") PlatformData resData) throws Exception {
         System.out.println(reqData);
-        SlipDto slipdto= datasetBeanMapper.datasetToBean(reqData, SlipDto.class);
-        ArrayList<JournalDto> journalObj=(ArrayList<JournalDto>)datasetBeanMapper.datasetToBeans(reqData, JournalDto.class);
-        String slipStatus=slipdto.getSlipStatus();
+        SlipreqDto slipreqdto= datasetBeanMapper.datasetToBean(reqData, SlipreqDto.class);
+        ArrayList<JournalreqDto> journalObj=(ArrayList<JournalreqDto>)datasetBeanMapper.datasetToBeans(reqData, JournalreqDto.class);
+        String slipStatus=slipreqdto.getSlipStatus();
 
         Gson gson = new Gson();
-        JSONObject slipJson = JSONObject.fromObject(slipdto); //전표
+        JSONObject slipJson = JSONObject.fromObject(slipreqdto); //전표
         JSONArray journalJson = JSONArray.fromObject(journalObj); //분개
-        ArrayList<JournalDto> journaldtos = new ArrayList<>();
+        ArrayList<JournalreqDto> journaldtos = new ArrayList<>();
         for (Object journal : journalJson) {
-            JournalDto journaldto = gson.fromJson(journal.toString(), JournalDto.class);
+            JournalreqDto journaldto = gson.fromJson(journal.toString(), JournalreqDto.class);
 
-            journaldto.setSlipNo(slipdto.getSlipNo());
+            journaldto.setSlipNo(slipreqdto.getSlipNo());
             journaldtos.add(journaldto);
         }
         if(slipStatus.equals("승인요청")) {
-            slipdto.setSlipStatus("승인요청");
+            slipreqdto.setSlipStatus("승인요청");
         }else if(slipStatus.equals("작성중(반려)")){
-            slipdto.setSlipStatus("승인요청");
+            slipreqdto.setSlipStatus("승인요청");
         }
         System.out.println("전달테스트");
-        businessService.modifySlip(slipdto, journaldtos);
+        businessService.modifySlip(slipreqdto, journaldtos);
     }
     @RequestMapping(value="/registerslip")
     public void registerSlip(@RequestParam(value="slipObj",required=false) String slipObj,
@@ -90,7 +89,7 @@ public class SlipController {
                              @RequestParam(value="slipStatus",required=false) String slipStatus) {
 
         Gson gson = new Gson();
-        SlipDto slipEntity = gson.fromJson(slipObj, SlipDto.class);
+        SlipreqDto slipEntity = gson.fromJson(slipObj, SlipreqDto.class);
         JSONArray journalObjs = JSONArray.fromObject(journalObj);
         /*
          * slipBean.setReportingEmpCode(request.getSession().getAttribute("empCode").
@@ -102,15 +101,15 @@ public class SlipController {
             slipEntity.setSlipStatus("승인요청"); //처음에 전표저장을 하면 null이라서 안 바꾸고 승인요청이 오면 바꾼다
         }
 
-        ArrayList<JournalDto> journalEntities = new ArrayList<>();
+        ArrayList<JournalreqDto> journalEntities = new ArrayList<>();
 
 
         for (Object journalObjt : journalObjs) {
-            JournalDto journalDto = gson.fromJson(journalObjt.toString(), JournalDto.class);
+            JournalreqDto journalreqDto = gson.fromJson(journalObjt.toString(), JournalreqDto.class);
             System.out.println(slipEntity.getSlipNo()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
-            journalDto.setSlipNo(slipEntity.getSlipNo()); //slipNo을 journalBean에 값이 없어서 세팅해줌
-            journalEntities.add(journalDto);
+            journalreqDto.setSlipNo(slipEntity.getSlipNo()); //slipNo을 journalBean에 값이 없어서 세팅해줌
+            journalEntities.add(journalreqDto);
 
         }
         businessService.registerSlip(slipEntity, journalEntities);
@@ -168,8 +167,8 @@ public class SlipController {
         param.put("fromDate", from);
         param.put("toDate", to);
         param.put("slipStatus", slipStatus);
-        ArrayList<SlipDto> slipList =  businessService.findRangedSlipList(param);
-        datasetBeanMapper.beansToDataset(resData, slipList, SlipDto.class);
+        ArrayList<SlipresDto> slipList =  businessService.findRangedSlipList(param);
+        datasetBeanMapper.beansToDataset(resData, slipList, SlipresDto.class);
 
     }
 

@@ -2,7 +2,7 @@ package kr.co.seoulit.account.posting.business.controller;
 
 import java.util.ArrayList;
 
-import kr.co.seoulit.account.posting.business.DTO.JournalDto;
+import kr.co.seoulit.account.posting.business.DTO.JournalresDto;
 import kr.co.seoulit.account.posting.business.service.BusinessService;
 import kr.co.seoulit.account.posting.business.Entity.JournalEntity;
 import kr.co.seoulit.account.sys.common.mapper.DatasetBeanMapper;
@@ -49,8 +49,8 @@ public class JournalController {
         String fromDate = reqData.getVariable("startDate").getString();
         String toDate = reqData.getVariable("endDate").getString();
 
-        ArrayList<JournalDto> journalList = businessService.findRangedJournalList(fromDate,toDate);
-        datasetBeanMapper.beansToDataset(resData, journalList, JournalDto.class);
+        ArrayList<JournalresDto> journalList = businessService.findRangedJournalList(fromDate,toDate);
+        datasetBeanMapper.beansToDataset(resData, journalList, JournalresDto.class);
     }
 
     @GetMapping("/journalremoval")
