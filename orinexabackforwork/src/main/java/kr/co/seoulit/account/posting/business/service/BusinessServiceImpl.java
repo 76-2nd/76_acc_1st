@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import kr.co.seoulit.account.posting.business.DTO.JournalDto;
-import kr.co.seoulit.account.posting.business.DTO.SlipDto;
+import kr.co.seoulit.account.posting.business.DTO.*;
 import kr.co.seoulit.account.posting.business.mapstruct.JournalReqMapstruct;
 import kr.co.seoulit.account.posting.business.mapstruct.JournalResMapstruct;
 import kr.co.seoulit.account.posting.business.mapstruct.SlipReqMapstruct;
@@ -124,12 +123,12 @@ public class BusinessServiceImpl implements BusinessService {
         return journalList;
     }
     @Override
-    public ArrayList<JournalDto> findRangedJournalList(String fromDate, String toDate) {
+    public ArrayList<JournalresDto> findRangedJournalList(String fromDate, String toDate) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fromDate", fromDate);
         map.put("toDate", toDate);
         List<JournalEntity> journalentitylist = journalDAO.selectRangedJournalList(map);
-        ArrayList<JournalDto> journalList = (ArrayList<JournalDto>) journalResMapstruct.toDto(journalentitylist);
+        ArrayList<JournalresDto> journalList = (ArrayList<JournalresDto>) journalResMapstruct.toDto(journalentitylist);
 
         return journalList;
     }
@@ -165,9 +164,9 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public void registerSlip(SlipDto slipDto, ArrayList<JournalDto> journalEntities) {
+    public void registerSlip(SlipreqDto slipreqDto, ArrayList<JournalreqDto> journalEntities) {
         System.out.println("AppServiceImpl_addSlip 시작");
-        SlipEntity slipEntity = slipReqMapstruct.toEntity(slipDto);
+        SlipEntity slipEntity = slipReqMapstruct.toEntity(slipreqDto);
         StringBuffer slipNo = new StringBuffer();
         int sum = 0;
 
@@ -181,8 +180,8 @@ public class BusinessServiceImpl implements BusinessService {
         System.out.println("slipNo: "+slipNo.toString());
         slipEntity.setSlipNo(slipNo.toString()); //20200118SLIP00001
         slipDAO.insertSlip(slipEntity);
-        for (JournalDto journalDto : journalEntities) {
-            JournalEntity journalEntity = journalReqMapstruct.toEntity(journalDto);
+        for (JournalreqDto journalreqDto : journalEntities) {
+            JournalEntity journalEntity = journalReqMapstruct.toEntity(journalreqDto);
             String journalNo = journalDAO.selectJournalName(slipEntity.getSlipNo());
             journalEntity.setJournalNo(journalNo);
             journalDAO.insertJournal(journalEntity);
@@ -211,11 +210,11 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public String modifySlip(SlipDto slipdtos, ArrayList<JournalDto> journaldtos) {
-        SlipEntity slipEntity = slipReqMapstruct.toEntity(slipdtos);
+    public String modifySlip(SlipreqDto slipreqdtos, ArrayList<JournalreqDto> journalreqdtos) {
+        SlipEntity slipEntity = slipReqMapstruct.toEntity(slipreqdtos);
         slipRepository.mergeSlip(slipEntity);
-        for (JournalDto journalDto : journaldtos) {
-            JournalEntity journalEntity = journalReqMapstruct.toEntity(journalDto);
+        for (JournalreqDto journalreqDto : journalreqdtos) {
+            JournalEntity journalEntity = journalReqMapstruct.toEntity(journalreqDto);
             journalDAO.updateJournal(journalEntity);
             if(journalEntity.getJournalDetailList()!=null) {
                 for(JournalDetailEntity journalDetailEntity : journalEntity.getJournalDetailList()) {
@@ -236,9 +235,9 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public ArrayList<SlipDto> findRangedSlipList(HashMap<String, Object> params) {
+    public ArrayList<SlipresDto> findRangedSlipList(HashMap<String, Object> params) {
         List<SlipEntity> slipEntityList = slipDAO.selectRangedSlipList(params);
-        ArrayList<SlipDto> slipList = (ArrayList<SlipDto>) slipResmapstruct.toDto(slipEntityList);
+        ArrayList<SlipresDto> slipList = (ArrayList< SlipresDto>) slipResmapstruct.toDto(slipEntityList);
         return slipList;
     }
 

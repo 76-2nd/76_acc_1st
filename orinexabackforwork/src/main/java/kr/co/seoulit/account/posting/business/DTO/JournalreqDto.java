@@ -4,11 +4,12 @@ import kr.co.seoulit.account.sys.base.to.BaseBean;
 import kr.co.seoulit.account.sys.common.annotation.Dataset;
 import lombok.Data;
 
+import javax.persistence.Table;
 import java.util.List;
 
 @Data
 @Dataset(name="gds_journal")
-public class JournalDto extends BaseBean {
+public class JournalreqDto extends BaseBean {
 
     private String journalNo;
 
