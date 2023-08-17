@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import kr.co.seoulit.account.posting.business.DTO.JournalDetailresDto;
 import kr.co.seoulit.account.posting.business.Entity.JournalEntity;
-import kr.co.seoulit.account.posting.business.Entity.JournalDetailEntity;
 import kr.co.seoulit.account.posting.ledger.dto.*;
 
 public interface LedgerService {
@@ -31,7 +30,7 @@ public interface LedgerService {
 
     ArrayList<CustomerLedgerBean> findCustomerLedger(String fromDate, String toDate);
 
-    ArrayList<CustomerLedgerDetailBean> findCustomerLedgerDetailList(String customerCode);
+    ArrayList<CustomerLedgerDetailResDto> findCustomerLedgerDetailList(String customerCode);
 
 
 }

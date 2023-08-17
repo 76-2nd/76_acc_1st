@@ -2,7 +2,7 @@ package kr.co.seoulit.account.posting.ledger.mapper;
 
 
 import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerBean;
-import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailBean;
+import kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailResDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,5 +13,5 @@ public interface CustomerLedgerMapper {
 
    public ArrayList<CustomerLedgerBean> selectCustomerLedgerList(@Param("fromDate") String fromDate,@Param("toDate") String toDate);
 
-   public ArrayList<CustomerLedgerDetailBean> selectCustomerLedgerDetailList(String customerCode);
+   public ArrayList<CustomerLedgerDetailResDto> selectCustomerLedgerDetailList(String customerCode);
 }

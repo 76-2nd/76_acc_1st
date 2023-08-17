@@ -7,7 +7,7 @@ import lombok.*;
 
 @Data
 @Dataset(name="gds_customerLedger_detail")
-public class CustomerLedgerDetailBean extends BaseBean {
+public class CustomerLedgerDetailResDto extends BaseBean {
 
     private String reportingDate;
     private String accountName;

@@ -150,8 +150,8 @@ public class LedgerServiceImpl implements LedgerService {
 			return customerLedgerBean;
 	}
 	@Override
-	public ArrayList<CustomerLedgerDetailBean> findCustomerLedgerDetailList(String customerCode){
-		ArrayList<CustomerLedgerDetailBean> customerLedgerDetailBean = customerLedgerDAO.selectCustomerLedgerDetailList(customerCode);
-		return customerLedgerDetailBean;
+	public ArrayList<CustomerLedgerDetailResDto> findCustomerLedgerDetailList(String customerCode){
+		ArrayList<CustomerLedgerDetailResDto> customerLedgerDetailResDto = customerLedgerDAO.selectCustomerLedgerDetailList(customerCode);
+		return customerLedgerDetailResDto;
 	}
 }

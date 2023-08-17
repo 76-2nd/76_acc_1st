@@ -65,19 +65,18 @@
 
 
     <select id="selectCustomerLedgerDetailList" parameterType="String"
-            resultType="kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailBean">
+            resultType="kr.co.seoulit.account.posting.ledger.dto.CustomerLedgerDetailResDto">
 		<![CDATA[
-        SELECT s.REPORTING_DATE              as reportingDate
-             , a.account_name                as accountName
-             , NVL(j.left_debtor_price, 0)   as leftDebtorPrice
-             , NVL(j.RIGHT_CREDITS_PRICE, 0) as rightCreditsPrice
-        FROM slip s
-           , journal j
-           , account a
-        WHERE s.SLIP_NO = j.SLIP_NO
-          AND j.ACCOUNT_INNER_CODE = a.ACCOUNT_INNER_CODE
-          AND j.customer_code = #{customerCode}
-          AND j.customer_name IS NOT NULL
+        SELECT s.REPORTING_DATE as reportingDate
+             ,a.account_name as accountName
+             ,NVL(j.left_debtor_price,0) as leftDebtorPrice
+             ,NVL(j.RIGHT_CREDITS_PRICE,0) as rightCreditsPrice FROM
+            slip s
+                                                                   ,journal j
+                                                                   ,account a
+        WHERE s.SLIP_NO=j.SLIP_NO
+          AND j.ACCOUNT_INNER_CODE=a.ACCOUNT_INNER_CODE
+          AND j.customer_code=#{customerCode}
         ]]>
       </select>
 </mapper>
