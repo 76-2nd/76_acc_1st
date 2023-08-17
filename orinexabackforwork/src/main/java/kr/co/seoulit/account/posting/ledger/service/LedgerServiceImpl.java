@@ -3,12 +3,15 @@ package kr.co.seoulit.account.posting.ledger.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.account.posting.ledger.entity.AssetEntity;
 import kr.co.seoulit.account.posting.ledger.entity.AssetItemEntity;
 import kr.co.seoulit.account.posting.ledger.mapper.CustomerLedgerMapper;
 import kr.co.seoulit.account.posting.ledger.dto.*;
 import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemReqMapStruct;
 import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemResMapStruct;
+import kr.co.seoulit.account.posting.ledger.mapstruct.AssetMapStruct;
 import kr.co.seoulit.account.posting.ledger.repository.AssetItemRepository;
+import kr.co.seoulit.account.posting.ledger.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +37,15 @@ public class LedgerServiceImpl implements LedgerService {
 
 	@Autowired
 	private AssetItemRepository assetItemRepository;
+	@Autowired
+	private AssetRepository assetRepository;
 
 	@Autowired
 	private AssetItemReqMapStruct assetItemReqMapStruct;
 	@Autowired
 	private AssetItemResMapStruct assetItemResMapStruct;
+	@Autowired
+	private AssetMapStruct assetMapStruct;
 
 
     @Override
@@ -83,13 +90,13 @@ public class LedgerServiceImpl implements LedgerService {
     }
 
 	@Override
-	public ArrayList<AssetBean> findAssetList() {
+	public ArrayList<AssetResDto> findAssetList() {
 
+		ArrayList<AssetEntity> assetEntity = (ArrayList<AssetEntity>) assetRepository.findAll();
 
-        	ArrayList<AssetBean> assetBean = null;
-        	assetBean = assistantLedgerDAO.selectAssetList();
+		ArrayList<AssetResDto> resDto = (ArrayList<AssetResDto>) assetMapStruct.toDto(assetEntity);
+		return resDto;
 
-        return assetBean;
 	}
 
 	@Override
@@ -121,7 +128,7 @@ public class LedgerServiceImpl implements LedgerService {
 	@Override
 	public void removeAssetItem(String assetItemCode) {
 
-			assistantLedgerDAO.removeAssetItem(assetItemCode);
+		assetItemRepository.deleteById(assetItemCode);
 
 	}
 
