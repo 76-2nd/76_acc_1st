@@ -16,7 +16,7 @@ public class JournalDetailRepository{
     EntityManager em;
 
     public void deleteByJournalNo(String journalNo) {
-        em.createQuery("delete from JournalEntity where journalNo = :journalNo")
+        em.createQuery("delete from JournalResEntity where journalNo = :journalNo")
                 .setParameter("journalNo", journalNo).executeUpdate();
     }
 
@@ -29,7 +29,7 @@ public class JournalDetailRepository{
     }
 
     public void removeJournalDetailByJournalNo(String journalNo) {
-        em.createQuery("delete from JournalDetailEntity where journalNo = :journalNo")
+        em.createQuery("delete from JournalDetailResEntity where journalNo = :journalNo")
                 .setParameter("journalNo", journalNo).executeUpdate();
     }
 

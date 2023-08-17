@@ -2,15 +2,15 @@ package kr.co.seoulit.account.posting.ledger.mapper;
 
 import java.util.ArrayList;
 
+import kr.co.seoulit.account.posting.ledger.entity.JournalDetailResEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.seoulit.account.posting.business.Entity.JournalEntity;
-import kr.co.seoulit.account.posting.business.Entity.JournalDetailEntity;
+import kr.co.seoulit.account.posting.ledger.entity.JournalResEntity;
 
 @Mapper
 public interface JournalEntryMapper {
 	
-    public ArrayList<JournalEntity> selectRangedJournalList(String fromDate, String toDate);
+    ArrayList<JournalResEntity> selectRangedJournalList(String fromDate, String toDate);
     
-    ArrayList<JournalDetailEntity> selectJournalDetailList(String journalNo);
+    ArrayList<JournalDetailResEntity> selectJournalDetailList(String journalNo);
 }

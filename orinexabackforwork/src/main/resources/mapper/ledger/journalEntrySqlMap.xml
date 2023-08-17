@@ -9,7 +9,7 @@
         SELECT J.JOURNAL_NO          as journalNo,
                J.SLIP_NO             as slipNo,
                J.BALANCE_DIVISION    as balanceDivision,
-               J.ACCOUNT_INNER_CODE  as accountCode,
+               J.ACCOUNT_INNER_CODE  as accountInnerCode,
                A.ACCOUNT_NAME        as accountName,
                J.CUSTOMER_CODE       as customerCode,
                J.LEFT_DEBTOR_PRICE   as leftDebtorPrice,
@@ -45,7 +45,7 @@
 		 ]]>
 		 </select>
 		 
-	<resultMap id="journalResult" type="kr.co.seoulit.account.posting.business.Entity.JournalEntity">
+	<resultMap id="journalResult" type="kr.co.seoulit.account.posting.ledger.entity.JournalResEntity">
 		<result property="journalNo" column="journalNo" />
 		<result property="slipNo" column="slipNo" />
 		<result property="balanceDivision" column="balanceDivision" />
@@ -58,7 +58,7 @@
 				javaType="java.util.ArrayList" />
 	</resultMap>
 	
-	<resultMap id="journalDetailResult" type="kr.co.seoulit.account.posting.business.Entity.JournalDetailEntity">
+	<resultMap id="journalDetailResult" type="kr.co.seoulit.account.posting.ledger.entity.JournalDetailResEntity">
 		<result property="journalNo" column="journalNo" />
 		<result property="journalDetailNo" column="journalDetailNo" />
 		<result property="journalDescription" column="journalDescription" />

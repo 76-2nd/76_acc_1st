@@ -14,7 +14,7 @@ public class JournalRepository {
     EntityManager em;
 
     public void removeByJournalNo(String journalNo) {
-        em.createQuery("delete from JournalEntity where journalNo = :journalNo")
+        em.createQuery("delete from JournalResEntity where journalNo = :journalNo")
                 .setParameter("journalNo", journalNo).executeUpdate();
     }
 /*
@@ -27,7 +27,7 @@ public class JournalRepository {
     }
 */
     public void removeBySlipNo(String slipNo) {
-        em.createQuery("delete from JournalEntity where slipNo = :slipNo")
+        em.createQuery("delete from JournalResEntity where slipNo = :slipNo")
                 .setParameter("slipNo", slipNo).executeUpdate();
     }
 }
