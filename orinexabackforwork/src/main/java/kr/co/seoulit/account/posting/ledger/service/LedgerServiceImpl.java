@@ -3,6 +3,8 @@ package kr.co.seoulit.account.posting.ledger.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.account.posting.business.DTO.JournalDetailresDto;
+import kr.co.seoulit.account.posting.business.mapstruct.JournalDetailResMapstruct;
 import kr.co.seoulit.account.posting.ledger.entity.AssetEntity;
 import kr.co.seoulit.account.posting.ledger.entity.AssetItemEntity;
 import kr.co.seoulit.account.posting.ledger.entity.DeptEntity;
@@ -53,6 +55,8 @@ public class LedgerServiceImpl implements LedgerService {
 	private AssetMapStruct assetMapStruct;
 	@Autowired
 	private DeptMapStruct deptMapStruct;
+	@Autowired
+	private JournalDetailResMapstruct journalDetailResMapstruct;
 
 
     @Override
@@ -88,13 +92,12 @@ public class LedgerServiceImpl implements LedgerService {
     }
 
 	@Override
-    public ArrayList<JournalDetailEntity> findJournalDetailList(String journalNo) {
+	public ArrayList<JournalDetailresDto> findJournalDetailList(String journalNo) {
 
-        	ArrayList<JournalDetailEntity> journalDetailEntities = null;
-        	journalDetailEntities = journalEntryDAO.selectJournalDetailList(journalNo);
-
-        return journalDetailEntities;
-    }
+		ArrayList<JournalDetailEntity> journalDetailEntity = journalEntryDAO.selectJournalDetailList(journalNo);
+		ArrayList<JournalDetailresDto> journalDetailDto= (ArrayList<JournalDetailresDto>) journalDetailResMapstruct.toDto(journalDetailEntity);
+		return journalDetailDto;
+	}
 
 	@Override
 	public ArrayList<AssetResDto> findAssetList() {

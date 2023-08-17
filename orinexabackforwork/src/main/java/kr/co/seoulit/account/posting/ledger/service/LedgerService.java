@@ -3,6 +3,7 @@ package kr.co.seoulit.account.posting.ledger.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.account.posting.business.DTO.JournalDetailresDto;
 import kr.co.seoulit.account.posting.business.Entity.JournalEntity;
 import kr.co.seoulit.account.posting.business.Entity.JournalDetailEntity;
 import kr.co.seoulit.account.posting.ledger.dto.*;
@@ -16,7 +17,7 @@ public interface LedgerService {
 
     ArrayList<JournalEntity> findRangedJournalList(String fromDate, String toDate);
 
-    ArrayList<JournalDetailEntity> findJournalDetailList(String journalNo);
+    ArrayList<JournalDetailresDto> findJournalDetailList(String journalNo);
 
     ArrayList<AssetResDto> findAssetList();
 
