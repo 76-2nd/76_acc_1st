@@ -22,7 +22,7 @@ public interface LedgerService {
 
     ArrayList<AssetItemResDto> findAssetItemList(String parentsCode);
 
-    ArrayList<DeptBean> findDeptList();
+    ArrayList<DeptResDto> findDeptList();
 
     void assetStorage(AssetItemReqDto assetItemReqDto);
 

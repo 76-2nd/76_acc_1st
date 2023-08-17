@@ -5,13 +5,16 @@ import java.util.HashMap;
 
 import kr.co.seoulit.account.posting.ledger.entity.AssetEntity;
 import kr.co.seoulit.account.posting.ledger.entity.AssetItemEntity;
+import kr.co.seoulit.account.posting.ledger.entity.DeptEntity;
 import kr.co.seoulit.account.posting.ledger.mapper.CustomerLedgerMapper;
 import kr.co.seoulit.account.posting.ledger.dto.*;
 import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemReqMapStruct;
 import kr.co.seoulit.account.posting.ledger.mapstruct.AssetItemResMapStruct;
 import kr.co.seoulit.account.posting.ledger.mapstruct.AssetMapStruct;
+import kr.co.seoulit.account.posting.ledger.mapstruct.DeptMapStruct;
 import kr.co.seoulit.account.posting.ledger.repository.AssetItemRepository;
 import kr.co.seoulit.account.posting.ledger.repository.AssetRepository;
+import kr.co.seoulit.account.posting.ledger.repository.DeptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,8 @@ public class LedgerServiceImpl implements LedgerService {
 	private AssetItemRepository assetItemRepository;
 	@Autowired
 	private AssetRepository assetRepository;
+	@Autowired
+	private DeptRepository deptRepository;
 
 	@Autowired
 	private AssetItemReqMapStruct assetItemReqMapStruct;
@@ -46,6 +51,8 @@ public class LedgerServiceImpl implements LedgerService {
 	private AssetItemResMapStruct assetItemResMapStruct;
 	@Autowired
 	private AssetMapStruct assetMapStruct;
+	@Autowired
+	private DeptMapStruct deptMapStruct;
 
 
     @Override
@@ -108,12 +115,13 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public ArrayList<DeptBean> findDeptList(){
+	public ArrayList<DeptResDto> findDeptList() {
 
-        	ArrayList<DeptBean> DeptBean = null;
-        	DeptBean = assistantLedgerDAO.selectDeptList();
+		ArrayList<DeptEntity> deptEntity = (ArrayList<DeptEntity>) deptRepository.findAll();
 
-        return DeptBean;
+		ArrayList<DeptResDto> resDto = (ArrayList<DeptResDto>) deptMapStruct.toDto(deptEntity);
+		return resDto;
+
 	}
 
 	@Override

@@ -6,22 +6,20 @@
     <select id="selectAssetItemList" parameterType="String"
             resultType="kr.co.seoulit.account.posting.ledger.entity.AssetItemEntity">
 			<![CDATA[
-        SELECT ASSET_ITEM_CODE                                                                         AS assetItemCode,
-               ASSET_ITEM_NAME                                                                         AS assetItemName,
-               ACQUISITION_DATE                                                                        AS acquisitionDate,
-               ACQUISITION_AMOUNT                                                                      AS acquisitionAmount,
-               TO_char(SYSDATE, 'yyyy') - SUBSTR(ACQUISITION_DATE, 0, 4)                               AS usefulLift,
-               MANAGEMENT_DEPT_NAME                                                                    AS manageMentDeptName,
-               PARENTS_CODE                                                                            AS parentsCode,
-               PARENTS_NAME                                                                            AS parentsName,
-               (ACQUISITION_AMOUNT / 10) *
-               (TO_char(SYSDATE, 'yyyy') - SUBSTR(ACQUISITION_DATE, 0, 4))                             AS accumulatedDepreciation,
-               ACQUISITION_AMOUNT -
-               (ACQUISITION_AMOUNT / 10) * (TO_char(SYSDATE, 'yyyy') - SUBSTR(ACQUISITION_DATE, 0, 4)) AS residualValue
-        FROM ASSET_ITEM
-        WHERE PARENTS_CODE = #{parentsCode}
-        ORDER BY ASSET_ITEM_CODE
-        ]]>
+		SELECT ASSET_ITEM_CODE AS assetItemCode,
+			   ASSET_ITEM_NAME AS assetItemName,
+			   ACQUISITION_DATE AS acquisitionDate,
+			   ACQUISITION_AMOUNT AS acquisitionAmount,
+			   USEFUL_LIFE AS usefulLife,
+			   trunc(USEFUL_LIFE-months_between(sysdate,to_date(ACQUISITION_DATE))/12) AS residualLife,
+			   MANAGEMENT_DEPT_NAME AS manageMentDeptName,
+			   PARENTS_CODE AS parentsCode,
+			   PARENTS_NAME AS parentsName,
+			   NVL((ACQUISITION_AMOUNT/10)*(TO_char(SYSDATE,'yyyy')-SUBSTR(ACQUISITION_DATE,0,4)),0) AS accumulatedDepreciation,
+			   NVL(ACQUISITION_AMOUNT-(ACQUISITION_AMOUNT/10)*(TO_char(SYSDATE,'yyyy')-SUBSTR(ACQUISITION_DATE,0,4)),0) AS residualValue
+		FROM ASSET_ITEM WHERE PARENTS_CODE = #{parentsCode}
+		ORDER BY ASSET_ITEM_CODE
+		]]>
 	</select>
 
 </mapper>
