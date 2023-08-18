@@ -51,10 +51,11 @@ public class SlipController {
 
         slipObj.setReportingEmpCode(empCode);
         slipObj.setDeptCode(deptCode);
-        slipObj.setSlipStatus("승인요청");
+        slipObj.setSlipStatus("작성중");
 
         businessService.addSlip(slipObj, journal, journalDetail);//journalDetail
     }
+
 
     /* nexacro */
     @RequestMapping("/updateSlip")

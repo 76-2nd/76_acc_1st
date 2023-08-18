@@ -10,6 +10,8 @@ import kr.co.seoulit.account.posting.business.Entity.SlipEntity;
 public interface SlipApprovalAndReturnMapper {
 	
     void updateapproveSlip(SlipEntity slipEntity);
-    
+    void updateapproveSlip2(SlipEntity slipEntity);
+
+
     public ArrayList<SlipEntity> selectDisApprovalSlipList();
 }
