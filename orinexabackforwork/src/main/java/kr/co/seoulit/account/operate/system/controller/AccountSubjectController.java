@@ -1,6 +1,8 @@
 package kr.co.seoulit.account.operate.system.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import kr.co.seoulit.account.operate.system.to.AccountDetailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +39,99 @@ public class AccountSubjectController {
 
     ModelAndView mav = null;
     ModelMap map = new ModelMap();
+    HashMap<String,Object> updateMap=null;
+
+
+
+
+
+
+    @RequestMapping("/registerAccountDetail")
+    public void registerAccountDetail(@RequestAttribute("reqData")PlatformData reqData,
+                                      @RequestAttribute("resData")PlatformData  resData )throws Exception{
+        System.out.println("<<<<<request has been arrived at registerAccountDetail");
+        AccountDetailEntity bean = datasetBeanMapper.datasetToBean(reqData,AccountDetailEntity.class);
+        System.out.println("<<<<<<<<<< AccountDetailData has been arrived at controller");
+        systemService.registerAccountDetail(bean);
+    }
+
+    @RequestMapping("/forFindDuplication")
+  public void forFindDuplication(@RequestAttribute("reqData")PlatformData reqData,
+                          @RequestAttribute("resData")PlatformData resData)throws Exception {
+        List<AccountDetailEntity> list=systemService.findDuplication();
+        datasetBeanMapper.beansToDataset(resData,list, AccountDetailEntity.class);
+    }
+
+    //계정과목 가져오기
+    @RequestMapping(value = "/findParentAccountList")
+    public ArrayList<AccountEntity> findParentAccountList(@RequestAttribute("reqData")PlatformData reqData,
+                                                          @RequestAttribute("resData")PlatformData resData) throws Exception {
+        datasetBeanMapper.beansToDataset(resData, systemService.findParentAccountList(), AccountEntity.class);
+
+        return null;
+    }
+
+    //상세 계정코드 목록 가져오기
+    @RequestMapping(value = "/detailaccountlist")
+    public ArrayList<AccountDetailEntity> findDetailAccountList(@RequestAttribute("reqData")PlatformData reqData,
+                                                                @RequestAttribute("resData")PlatformData resData) throws Exception {
+        String parentAccountInnerCode = reqData.getVariable("parentAccountInnerCode").getString();
+        System.out.println(parentAccountInnerCode);
+
+        ArrayList<AccountDetailEntity> accountList = systemService.findDetailAccountList(parentAccountInnerCode);
+        datasetBeanMapper.beansToDataset(resData, accountList, AccountDetailEntity.class);
+
+        return null;
+    }
+
+    @RequestMapping("/findAccountDetail")
+    public void findAccountDetail(@RequestAttribute("reqData")PlatformData reqData,
+                                  @RequestAttribute("resData")PlatformData resData)throws Exception{
+
+        String accountInnerCode=reqData.getVariable("accountInnerCode").getString();
+        AccountDetailEntity accountDetail=systemService.findAccountDetail(accountInnerCode);
+        datasetBeanMapper.beanToDataset(resData,accountDetail, AccountDetailEntity.class);
+
+    }
+
+    @RequestMapping("/modifyAccountDetail")
+    public void modifyAccountDetail(@RequestAttribute("reqData")PlatformData reqData,
+                                    @RequestAttribute("resData")PlatformData resData){
+        String accountInnerCode=reqData.getVariable("accountInnerCode").getString();
+        String accountName=reqData.getVariable("accountName").getString();
+        System.out.println("<<<<<<<<accountName = " + accountName+"    "+accountInnerCode);
+        updateMap=new HashMap<>();
+        updateMap.put("accountInnerCode",accountInnerCode);
+        updateMap.put("accountName",accountName);
+        systemService.modifyAccountDetail(updateMap);
+
+    }
+
+    @RequestMapping("/removeAccountDetail")
+    public void removeDetailAccount(@RequestAttribute("reqData")PlatformData reqData,
+                                    @RequestAttribute("resData")PlatformData resData){
+            String accountInnerCode=reqData.getVariable("accountInnerCode").getString();
+        System.out.println("<<<<accountInnerCode = " + accountInnerCode);
+            systemService.removeAccountDetail(accountInnerCode);
+
+    }
+
+
+
+
+
+              //아래는 아직 사용하지 않는 코드들
 
     @GetMapping("/account")
     public AccountEntity findAccount(@RequestParam String accountCode) {
 
-            AccountEntity accountEntity = systemService.findAccount(accountCode);
+        AccountEntity accountEntity = systemService.findAccount(accountCode);
 
         return accountEntity;
     }
+
+
+
 
     @RequestMapping(value = "/findAccountControlList")
     public ArrayList<AccountControlEntity> findAccountControlList(@RequestAttribute("reqData")PlatformData reqData,
@@ -89,27 +176,6 @@ public class AccountSubjectController {
         return null;
     }
 
-  //계정과목 가져오기
-    @RequestMapping(value = "/findParentAccountList")
-    public ArrayList<AccountEntity> findParentAccountList(@RequestAttribute("reqData")PlatformData reqData,
-                                                          @RequestAttribute("resData")PlatformData resData) throws Exception {
-        datasetBeanMapper.beansToDataset(resData, systemService.findParentAccountList(), AccountEntity.class);
-
-        return null;
-    }
-
-    //상세 계정코드 가져오기
-    @RequestMapping(value = "/detailaccountlist")
-    public ArrayList<AccountDetailEntity> findDetailAccountList(@RequestAttribute("reqData")PlatformData reqData,
-                                                                @RequestAttribute("resData")PlatformData resData) throws Exception {
-        String parentAccountInnerCode = reqData.getVariable("parentAccountInnerCode").getString();
-        System.out.println(parentAccountInnerCode);
-
-            ArrayList<AccountDetailEntity> accountList = systemService.findDetailAccountList(parentAccountInnerCode);
-            datasetBeanMapper.beansToDataset(resData, accountList, AccountDetailEntity.class);
-
-        return null;
-    }
 
 //    @GetMapping("/accountmodification")
 //    public void modifyAccount(@RequestParam String accountInnerCode,

@@ -1,79 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
-	<mapper namespace="kr.co.seoulit.account.operate.system.mapper.BoardMapper">
-    
-    <insert id="insertBoard" parameterType="kr.co.seoulit.account.operate.system.to.BoardBean">
-    <![CDATA[
-    INSERT INTO BBS
-    (
-    	BBS_ID,
-    	BBS_TITLE,
-    	BBS_CONTENTS,
-    	BBS_DATE,
-    	EMP_NAME
-    )
-    VALUES
-    (
-    	BOARD_SQ.NEXTVAL,
-    	#{bbsTitle},
-    	#{bbsContents},
-    	TO_DATE(#{bbsDate},'YYYY-MM-DD HH24:MI:SS'),
-    	#{empName}
-    )
-     ]]>
-    </insert>
-    
-    <insert id="updateBoard" parameterType="kr.co.seoulit.account.operate.system.to.BoardBean">
-    <![CDATA[
-    UPDATE BBS
-    SET 
-    BBS_TITLE = #{bbsTitle},
-    BBS_CONTENTS = #{bbsContents},
-    BBS_DATE = #{bbsDate},
-    EMP_NAME = #{empName}
-    WHERE 
-    BBS_ID = #{bbsID}
-     ]]>
-    </insert>
-    	<select id="selectBoardList"
-		resultType="kr.co.seoulit.account.operate.system.to.BoardBean">
+
+<mapper namespace="kr.co.seoulit.account.operate.system.mapper.BoardMapper">
+
+
+	<!--	Id as id-->
+	<!--	,title as title-->
+	<!--	,contents as contents-->
+	<!--	,written_by as writtenBy-->
+	<!--	,update_by as upDateBy-->
+	<!--	,write_date as writeDate-->
+	<!--	,update_date_time as updateDateTime-->
+	<!--	,delete_flag as deleteFlag-->
+
+
+
+	<resultMap id="CttBoardDto" type="kr.co.seoulit.account.operate.system.to.BoardBean">
+		<constructor>
+			<idArg column="Id" javaType="Integer"/>
+			<arg column="title" javaType="String" />
+			<arg column="contents" javaType="String"  />
+			<arg column="written_by" javaType="String" />
+			<arg column="update_by" javaType="String" />
+			<arg column="write_date" javaType="Date" />
+			<arg column="update_date_time" javaType="Date" />
+			<arg column="delete_flag" javaType="String" />
+		</constructor>
+	</resultMap>
+
+
+	<!--생성자로 필드를 초기화할때는 DB의 칼럼과 매핑되는 객체 필드 이름을 적어주지 않아도 됨. -->
+
+	<select id="constBoardList"
+			resultMap="CttBoardDto">
 		<![CDATA[
-				SELECT *
-				
-				FROM
-				(SELECT    	
-								BBS_ID AS bbsID,
-						    	BBS_TITLE AS bbsTitle,
-						    	BBS_CONTENTS AS bbsContents,
-								TO_CHAR(BBS_DATE,'YYYY-MM-DD HH24:MI:SS') AS bbsDate,
-						    	EMP_NAME AS empName,
-						    	ROWNUM AS rown
-				FROM BBS)
-		 ]]>
-	</select>
-	
-	
-    	<select id="selectBoarddetail"
-    	parameterType="String"
-		resultType="kr.co.seoulit.account.operate.system.to.BoardBean">
-		<![CDATA[
-				SELECT    	
-								BBS_ID AS bbsID,
-						    	BBS_TITLE AS bbsTitle,
-						    	BBS_CONTENTS AS bbsContents,
-								TO_CHAR(BBS_DATE,'YYYY-MM-DD HH24:MI:SS') AS bbsDate,
-						    	EMP_NAME AS empName
-				FROM BBS
-				WHERE BBS_ID = #{row}
-		
-		 ]]>
+		SELECT
+			Id
+			 ,title
+			 ,contents
+			 ,written_by
+			 ,update_by
+			 ,write_date
+			 ,update_date_time
+			 ,delete_flag
+		FROM
+			Board
+		]]>
 	</select>
 
-	<delete id="deleteBoard">
-		DELETE FROM BBS
-		WHERE  CHECKED = '0';
+
+
+
+	<!--Test succeed-->
+
+	<insert id="insertBoard" parameterType="kr.co.seoulit.account.operate.system.to.BoardBean">
+    <![CDATA[
+		INSERT INTO board
+		(
+
+			id,
+			TITLE,
+			CONTENTS,
+			written_by,
+			write_date
+
+		)
+		VALUES
+			(
+				BOARD_SQ.NEXTVAL,
+				#{title},
+				#{contents},
+				#{writtenBy},
+				sysdate
+
+			)
+		]]>
+    </insert>
+
+
+
+	<!--Test succeed-->
+
+
+	<update id="updateBoard" parameterType="kr.co.seoulit.account.operate.system.to.BoardBean">
+    <![CDATA[
+		UPDATE Board
+		SET
+			title = #{title},
+			contents = #{contents},
+			update_date_time=sysdate
+
+		WHERE
+			ID = #{id}
+		]]>
+    </update>
+
+
+
+
+	<!--Test succeed-->
+
+	<select id="selectBoardList"
+			resultType="kr.co.seoulit.account.operate.system.to.BoardBean">
+		<![CDATA[
+		SELECT
+			Id as id
+			 ,title as title
+			 ,contents as contents
+			 ,written_by as writtenBy
+			 ,update_by as  updateBy
+			 ,write_date as writeDate
+			 ,update_date_time as updateDateTime
+		FROM
+			Board
+		order by id desc    --최근의 데이터를 최상단에 보여주기 위한 정렬
+		]]>
+	</select>
+
+
+
+
+
+	<!--Test succeed-->
+
+	<select id="selectBoardDetail"
+			parameterType="String"
+			resultType="kr.co.seoulit.account.operate.system.to.BoardBean">
+		<![CDATA[
+		SELECT
+			Id as id
+			 ,title as title
+			 ,contents as contents
+			 ,written_by as writtenBy
+			 ,update_by as upDateBy
+			 ,write_date as writeDate
+			 ,update_date_time as updateDateTime
+
+		FROM
+			Board
+		where ID=#{id}
+		]]>
+	</select>
+
+
+
+
+
+
+	<!-- Test succeed-->
+
+	<delete id="deleteBoard" parameterType="String">
+		DELETE FROM Board
+		WHERE  id=#{id}
 	</delete>
-	
+
+
+
+
+
+
+
 </mapper>

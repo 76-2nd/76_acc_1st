@@ -2,6 +2,7 @@ package kr.co.seoulit.account.operate.system.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import kr.co.seoulit.account.operate.system.to.*;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import kr.co.seoulit.account.operate.system.repository.AccountRepository;
 public class SystemServiceImpl implements SystemService {
 
 	private final AccountSubjectMapper accountDAO;
+
 	private final AuthorityGroupMapper authorityGroupDAO;
 	private final WorkplaceMapper workplaceDAO;
 	private final AccountControlRepository accountControlRepository;
@@ -28,22 +30,67 @@ public class SystemServiceImpl implements SystemService {
 	private final BoardMapper BoardDAO;
 	//private final WorkplaceRepository workplaceRepository;
 
-	public SystemServiceImpl(AccountSubjectMapper accountDAO, AuthorityGroupMapper authorityGroupDAO,
-							 WorkplaceMapper workplaceDAO, AccountControlRepository accountControlRepository,
-							 AccountRepository accountRepository, BoardMapper BoardDAO) {
+
+	public SystemServiceImpl(AccountSubjectMapper accountDAO,
+							 AuthorityGroupMapper authorityGroupDAO,
+							 WorkplaceMapper workplaceDAO,
+							 AccountControlRepository accountControlRepository,
+							 AccountRepository accountRepository,
+							 BoardMapper boardDAO) {
 		this.accountDAO = accountDAO;
 		this.authorityGroupDAO = authorityGroupDAO;
 		this.workplaceDAO = workplaceDAO;
 		this.accountControlRepository = accountControlRepository;
 		this.accountRepository = accountRepository;
-		this.BoardDAO=BoardDAO;
-		//this.workplaceRepository=workplaceRepository;
+		BoardDAO = boardDAO;
 	}
+
+
+
+	@Override
+	public void registerAccountDetail(AccountDetailEntity accountDetailEntity){
+
+		 accountDAO.insertAccountDetail(accountDetailEntity);
+
+	}
+
+
+
+
+	@Override
+	public List<AccountDetailEntity> findDuplication(){
+
+		return accountDAO.forFindDuplication();
+
+	}
+
+	@Override
+	public void modifyAccountDetail(HashMap<String,Object> map){
+
+		accountDAO.updateAccountDetail(map);
+
+	}
+
+
+	@Override
+	public void removeAccountDetail(String accountInnerCode){
+
+		accountDAO.deleteAccountDetail(accountInnerCode);
+
+	}
+
+
+
+										//아래는 아직 사용하지 않는 코드들
+
 
 	@Override
 	public ArrayList<AccountEntity> findAccountList() {
 		return accountDAO.selectAccountList();
 	}
+
+
+
 
 	@Override
 	public AccountEntity findAccount(String accountCode) {
@@ -72,6 +119,13 @@ public class SystemServiceImpl implements SystemService {
 		accountList = accountDAO.selectDetailAccountList(parentAccountInnerCode);
 
 		return accountList;
+	}
+
+	@Override
+	public AccountDetailEntity findAccountDetail(String accountInnerCode) {
+
+
+		return accountDAO.selectAccountDetail(accountInnerCode);
 	}
 
 	@Override
@@ -163,10 +217,8 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public ArrayList<AuthorityMenuEntity> findAuthorityGroup() {
 
-		ArrayList<AuthorityMenuEntity> authorityGroup = null;
-		authorityGroup = authorityGroupDAO.selectAuthorityGroup();
+		return 	authorityGroupDAO.selectAuthorityGroup();
 
-		return authorityGroup;
 	}
 
 	@Override
@@ -284,31 +336,48 @@ public class SystemServiceImpl implements SystemService {
 
 		return detailBusinessList;
 	}
+
+
+
+
+	// Board Crud
+
+
+
+	public ArrayList<BoardBean> constBoardList(){
+
+		return	BoardDAO.constBoardList();
+	}
+
+
 	@Override
-	public void insertBoard(BoardBean bean) {
+	public void registerBoard(BoardBean bean) {
 
 		BoardDAO.insertBoard(bean);
 
 	}
 	@Override
-	public void updateBoard(BoardBean bean) {
+	public void modifyBoard(BoardBean bean) {
 
 		BoardDAO.updateBoard(bean);
 
 	}
 	@Override
-	public ArrayList<BoardBean> selectBoardList(){
-		return (ArrayList<BoardBean>) BoardDAO.selectBoardList();
-	}
-	public ArrayList<BoardBean> selectBoarddetail(String row){
-
-		return (ArrayList<BoardBean>) BoardDAO.selectBoarddetail(row);
+	public ArrayList<BoardBean> findBoardList(){
+		return BoardDAO.selectBoardList();
 	}
 
 	@Override
-	public void removeBoard() {
+	public BoardBean findBoardDetail(String bno){
 
-		BoardDAO.deleteBoard();
+		return BoardDAO.selectBoardDetail(bno);
+	}
+
+	@Override
+	public void removeBoard(String bno) {
+
+		BoardDAO.deleteBoard(bno);
 
 	}
+
 }

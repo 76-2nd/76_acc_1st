@@ -2,17 +2,37 @@ package kr.co.seoulit.account.operate.system.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import kr.co.seoulit.account.operate.system.to.*;
 
 public interface SystemService {
 
-    public AccountEntity findAccount(String code);
 
-    public ArrayList<AccountEntity> findParentAccountList();
+				       	  //계정 관련
+
+
+	void registerAccountDetail(AccountDetailEntity accountDetailEntity);
+
+	List<AccountDetailEntity> findDuplication();
+
+
+	 ArrayList<AccountEntity> findParentAccountList();
 
 	//상세 계정코드 가져오기
-    public ArrayList<AccountDetailEntity> findDetailAccountList(String parentAccountInnerCode);
+	ArrayList<AccountDetailEntity> findDetailAccountList(String parentAccountInnerCode);
+	AccountDetailEntity findAccountDetail(String accountInnerCode);
+	void modifyAccountDetail(HashMap<String,Object> map);
+	 void removeAccountDetail(String accountInnerCode);
+
+
+
+											//아래는 아직 사용하지 않는 코드들
+
+    public AccountEntity findAccount(String code);
+
+
 
     public void modifyAccount(AccountEntity accountEntity);
 
@@ -28,10 +48,18 @@ public interface SystemService {
 
     public ArrayList<AccountEntity> findParentBudgetList();
 
+
+
+
+
     public ArrayList<PeriodEntity> findAccountPeriodList();
 
     //periodpopup
     public ArrayList<PeriodEntity>  findPeriodList();
+
+
+										//권한 관련
+
 
     public ArrayList<AuthorityEmpBean> findAuthorityEmp(String deptCode);
 
@@ -65,13 +93,30 @@ public interface SystemService {
 
 	public ArrayList<WorkplaceEntity> findAllWorkplaceList(); //紐⑤뱺�궗�뾽�옣議고쉶
 
-	public ArrayList<BoardBean> selectBoardList();
 
-	public ArrayList<BoardBean> selectBoarddetail(String row);
 
-	public void insertBoard(BoardBean bean);
 
-	public void updateBoard(BoardBean bean);
 
-	public void removeBoard();
+
+
+
+
+										//Board CRUD
+
+	// 과제로 Mybatis에서 resultMap으로 필드에 생성자 주입을 위한 테스트 메서드 입니다.
+	ArrayList<BoardBean> constBoardList();
+
+	//아래 5개의 CRUD메서드는 정상 작동합니다.
+
+	public ArrayList<BoardBean> findBoardList();
+
+	public BoardBean findBoardDetail(String boardId);
+
+	public void registerBoard(BoardBean bean);
+
+	public void modifyBoard(BoardBean bean);
+
+	public void removeBoard(String boardId);
+
+
 }
