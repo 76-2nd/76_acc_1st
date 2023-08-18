@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.seoulit.account.posting.business.mapper.SlipApprovalAndReturnMapper">
 
+	<!--메뉴-일반전표 : 작성중 -> "승인요청"으로 update -->
 	<update id="updateapproveSlip2" parameterType="kr.co.seoulit.account.posting.business.Entity.SlipEntity">
 			<![CDATA[
 		UPDATE SLIP
@@ -11,7 +12,8 @@
 		]]>
 		 </update>
 
-    <update id="updateapproveSlip" parameterType="kr.co.seoulit.account.posting.business.Entity.SlipEntity">
+	<!--메뉴-전표승인 : 승인요청 -> "승인완료"로 update -->
+	<update id="updateapproveSlip" parameterType="kr.co.seoulit.account.posting.business.Entity.SlipEntity">
 			<![CDATA[
         UPDATE SLIP
         SET APPROVAL_DATE=#{approvalDate},

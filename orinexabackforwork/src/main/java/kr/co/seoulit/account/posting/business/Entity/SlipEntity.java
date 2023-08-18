@@ -21,19 +21,17 @@ public class SlipEntity extends BaseBean {
     private String slipNo;
     private String accountPeriodNo;
     private String deptCode;
-    @Column(columnDefinition = "nchar")
+   // @Column(columnDefinition = "nchar")
     private String slipType;
-    @Column(columnDefinition = "nvarchar2")
+    //@Column(columnDefinition = "varchar2")
     private String expenseReport;
     //    @Column(columnDefinition = "nchar")
 //    private String authorizationStatus;
     private String reportingEmpCode;
     private String reportingDate;
-    @Transient
-//    @Column(name = "APPROVAL_EMP_CODE")
+    @Column(name = "APPROVAL_EMP_CODE")
     private String approvalEmpCode;
-//    @Column(name = "APPROVAL_DATE")
-    @Transient
+    @Column(name = "APPROVAL_DATE")
     private String approvalDate;
     //    @Column(columnDefinition = "nvarchar2")
 //    private String slipDescription;

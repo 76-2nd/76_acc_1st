@@ -229,15 +229,15 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public void approveSlip(ArrayList<SlipreqDto> slipDtos) {
 
-//        for (SlipEntity slipEntity : slipEntities) {
-//            slipEntity.setSlipStatus(slipEntity.getSlipStatus().equals("승인요청") ? "승인완료":"승인완료");
         ArrayList<SlipEntity>  slipEntities = (ArrayList<SlipEntity>) slipReqMapstruct.toEntity(slipDtos);
 
     for(SlipreqDto slipDto : slipDtos){
         if(slipDto.getSlipStatus().equals("승인완료")){
-        for (SlipEntity entity:slipEntities){
+            //메뉴-전표승인 : 승인요청 -> "승인완료"로 update하는 로직
+            for (SlipEntity entity:slipEntities){
             slipApprovalAndReturnDAO.updateapproveSlip(entity);}
         }else {
+            //메뉴-일반전표 : 작성중 -> "승인요청"으로 update하는 로직
             for (SlipEntity entity : slipEntities) {
                 slipApprovalAndReturnDAO.updateapproveSlip2(entity);
             }
