@@ -52,10 +52,17 @@ public class AssetManagementController{
 	public ArrayList<DeptResDto> deptList(@RequestAttribute("reqData") PlatformData reqData,
 										  @RequestAttribute("resData") PlatformData resData) throws Exception {
 
+		long start=System.currentTimeMillis();
+
 		ArrayList<DeptResDto> DeptList = ledgerService.findDeptList();
+
+		long finish=System.currentTimeMillis();
+
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!소요시간 : "+(finish-start));
+
 		datasetBeanMapper.beansToDataset(resData, DeptList, DeptResDto.class);
 
-		return DeptList;
+		return null;
 	}
 
 	@PostMapping("/assetitemlistRegist")

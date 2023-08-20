@@ -1,5 +1,6 @@
 package kr.co.seoulit.account.posting.ledger.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +12,9 @@ import kr.co.seoulit.account.posting.ledger.repository.AssetItemRepository;
 import kr.co.seoulit.account.posting.ledger.repository.AssetRepository;
 import kr.co.seoulit.account.posting.ledger.repository.DeptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import kr.co.seoulit.account.posting.ledger.mapper.AssistantLedgerMapper;
@@ -20,7 +24,7 @@ import kr.co.seoulit.account.posting.ledger.mapstruct.JournalDetailMapstruct;
 
 @Service
 @Transactional
-public class LedgerServiceImpl implements LedgerService {
+public class LedgerServiceImpl implements LedgerService, Serializable {
 
 	@Autowired
     private JournalEntryMapper journalEntryDAO;
@@ -52,7 +56,9 @@ public class LedgerServiceImpl implements LedgerService {
 	private JournalDetailMapstruct journalDetailMapstruct;
 
 
-    @Override
+	private RedisTemplate<String, ArrayList<DeptEntity>> redisTemplate=new RedisTemplate<>();
+
+	@Override
 	public ArrayList<CashJournalBean> findTotalCashJournal(HashMap<String, String> map) {
 
         	ArrayList<CashJournalBean> cashJournalList = auxiliaryLedgerDAO.selectTotalCashJournalList(map);
@@ -111,14 +117,19 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
+	@Cacheable(value = "deptlist")
 	public ArrayList<DeptResDto> findDeptList() {
+
 
 		ArrayList<DeptEntity> deptEntity = (ArrayList<DeptEntity>) deptRepository.findAll();
 
 		ArrayList<DeptResDto> resDto = (ArrayList<DeptResDto>) deptMapStruct.toDto(deptEntity);
+
 		return resDto;
 
+
 	}
+
 
 	@Override
 	public void assetStorage(AssetItemReqDto assetItemReqDto) {

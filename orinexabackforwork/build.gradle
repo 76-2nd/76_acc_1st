@@ -106,6 +106,12 @@ dependencies {
     //ModelMapper
     implementation 'org.modelmapper:modelmapper:2.4.4'
 
+    //Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    //implementation 'redis.clients:jedis:3.6.0'
+
+
+
 }
 
 tasks.named('test') {
